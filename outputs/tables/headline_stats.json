@@ -1,0 +1,20 @@
+{
+  "live_stems": 3218,
+  "established": 395,
+  "est_per_ha": 988,
+  "species_established": 22,
+  "ash_seedlings_min": 1824,
+  "ash_saplings": 2,
+  "oak_saplings": 0,
+  "standing_dead": 20,
+  "fallen_dead": 119,
+  "stumps": 12,
+  "wild_service_established": 1,
+  "lime_established": 17,
+  "invasive_share_pct": 0.5,
+  "transects_per_unit": {
+    "1": 7,
+    "2": 5,
+    "4": 8
+  }
+}
