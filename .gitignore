@@ -6,7 +6,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 
-# Client data. AWT's survey data is unpublished and not ours to distribute.
+# AWT's survey data is unpublished and not ours to distribute.
 # This stays ignored PERMANENTLY so it can never enter git history, even if
 # the repo later goes public.
 data/raw/*
@@ -30,7 +30,7 @@ outputs/report.html
 ~$*
 ~WRL*.tmp
 
-# Contains client contact details and correspondence. Never commit.
+# Contains AWT contact details and correspondence. Never commit.
 access_and_admin.md
 
 # Editors and OS

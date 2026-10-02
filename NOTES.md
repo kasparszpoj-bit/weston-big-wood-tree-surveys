@@ -1,10 +1,10 @@
 # Weston Big Wood tree surveys (Avon Wildlife Trust)
 
-A real GIS and data analysis job for a named client: turning Avon Wildlife
-Trust's paper tree survey sheets for Weston Big Wood SSSI into density maps,
+Volunteer GIS and data analysis for Avon Wildlife Trust: turning AWT's
+paper tree survey sheets for Weston Big Wood SSSI into density maps,
 diversity maps and age class analysis.
 
-Folder location: 02_skills_and_portfolio/projects/weston_big_wood_tree_surveys
+Folder location: 01_uk_job_projects/weston_big_wood_tree_surveys
 
 This is the first portfolio project with an actual organisation, an actual
 brief, and a named contact who can act as a non academic reference. That makes
@@ -145,4 +145,4 @@ The analysis, now unblocked:
 - The warm intro chain and reference value: see [[project-portfolio-sequence]]
   in the memory notes.
 - The Iceland placement project that follows this one:
-  02_skills_and_portfolio/projects/thorsmork_trail_effectiveness
+  01_uk_job_projects/thorsmork_trail_effectiveness

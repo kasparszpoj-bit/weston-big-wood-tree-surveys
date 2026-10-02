@@ -1,104 +1,101 @@
-# Weston Big Wood SSSI: Initial Tree Survey Analysis
+# Weston Big Wood SSSI: Tree Survey Analysis
 
-Initial GIS and statistical analysis of Avon Wildlife Trust's 2022 tree survey
-of Weston Big Wood SSSI, an ancient limestone woodland near Portishead, North
-Somerset. A scripted Python pipeline turns 20 hand-tallied field sheets into
-density, diversity and deadwood maps, and an evidence base for the site's
-statutory condition assessment. A parallel PyQGIS pipeline rebuilds the same
-maps as QGIS print layouts.
+I volunteer with Avon Wildlife Trust (AWT) as a GIS and data analyst. This repo
+analyses AWT's 2022 tree survey of Weston Big Wood SSSI, an ancient limestone
+woodland near Portishead, North Somerset.
+
+Python scripts turn 20 hand-tallied field sheets into maps of tree density,
+diversity and deadwood. A separate script rebuilds the maps as QGIS print
+layouts.
 
 **Author:** Kaspar Szpojnarowicz
-**Client:** Avon Wildlife Trust (volunteer GIS and data analysis)
-**Status:** Initial analysis. 20 of 49 planned transects were walked, so this
-is a first pass built to be rerun when more fieldwork is done.
+**Status:** First pass. Surveyors walked 20 of 49 planned transects, so I built
+the pipeline to rerun when more fieldwork comes in.
 
 | | |
 |---|---|
 | Survey | 12 May to 6 October 2022 |
 | Coverage | 20 of 49 planned transects, 0.40 ha of 37.66 ha (1.06%) |
 | Records | 436 tidy rows, 30 species, 3,218 live stems |
-| Outputs | 15 figures (14 matplotlib, 11 QGIS, figure 1 QGIS only) |
+| Outputs | 15 figures: 2 to 15 in matplotlib, 1 to 11 in QGIS |
+| Stack | Python (pandas, geopandas, matplotlib), PyQGIS |
 | Tests | 26, on the tally parser |
 
 ## Project Overview
 
-Weston Big Wood is 37.66 ha of ancient woodland notified as a Site of Special
-Scientific Interest in 1971, for its open-canopy oak standards, coppice and
-maiden ash, rich ground flora, and two ancient woodland indicator trees the
-1984 citation calls "locally abundant": Small-leaved Lime and Wild Service
-Tree. In April 2023 Natural England assessed all four management units as
-**Unfavourable, Declining**, citing ash dieback and insufficient standing
+Weston Big Wood covers 37.66 ha. It became an SSSI in 1971 for its oak
+standards, coppice, ash, ground flora, and two ancient woodland indicator trees
+that the 1984 citation calls "locally abundant": Small-leaved Lime and Wild
+Service Tree. In April 2023 Natural England rated all four management units
+**Unfavourable, Declining**, citing ash dieback and too little standing
 deadwood.
 
-In 2022 AWT surveyed the wood on a 100 m grid: 49 planned belt transects
-(50 m x 4 m, random bearings), of which 20 were walked, recording every stem
-by species, size class and stem type (single, coppice, multistem), plus
-standing and fallen deadwood. The data sat unanalysed until this project.
+In 2022 AWT laid out 49 belt transects (50 m x 4 m) on a 100 m grid, each on a
+random bearing. Surveyors walked 20 of them and recorded every stem by species,
+size class and stem type (single, coppice or multistem), plus standing and
+fallen deadwood. Nobody had analysed the data before this project.
 
 ![Survey coverage map](outputs/figures/fig02_coverage.png)
 
-*Figure 2. Survey coverage: 20 of 49 planned transects walked. A LIDAR check
-(EA 1 m DTM) shows the unwalked squares are no steeper on average than the
-walked ones, but are five times as likely to contain a cliff face (max slope
-over 60 degrees: 8 of 29, against 1 of 20 surveyed). Terrain explains only
-part of the gap. On every map in this repo, blank means not surveyed, never
-zero.*
+*Figure 2. Survey coverage. A LIDAR check (EA 1 m DTM) shows the unwalked
+squares are no steeper on average than the walked ones, but they are five times
+as likely to contain a cliff (max slope over 60 degrees in 8 of 29, against 1
+of 20 walked). Terrain explains some of the gap. On every map here, blank
+squares mean no data.*
 
-Each output the client asked for happens to test a stated reason the site is
-failing, so the figures are arranged as evidence for the condition
-conversation rather than as a generic mapping exercise.
+I arranged the figures around Natural England's reasons for the poor rating:
+ash dieback, deadwood, and whether the cited species are still there.
 
 ## Key Findings
 
-**Ash converts seedlings to saplings at 912:1.** Every other species in the
-wood converts at between 2:1 and 29:1. Ash masts, so a large seedling crop and
-heavy losses are expected, but a gap of three orders of magnitude against wych
-elm on the same soil looks like dieback rather than masting. A single snapshot
-with no control site cannot prove cause.
+**Ash: 912 seedlings for every sapling.** Other species range from 2:1 to 29:1.
+Ash seeds heavily in mast years, so some loss is normal, but 912:1 is over 400
+times wych elm's 2:1 on the same soil. That points to dieback. One survey with
+no control site can't prove it.
 
 ![Seedlings per sapling](outputs/figures/fig13_seedlings_per_sapling.png)
 
-*Figure 13. Seedling to sapling conversion by species. Ash highlighted; its
-seedling total is a censored minimum (field cap of 100 per cell).*
+*Figure 13. Seedlings per sapling by species. Ash is highlighted. Its seedling
+total is a minimum, because the field sheet capped counts at 100 per cell.*
 
-**The wood has no next generation of canopy trees.** There is not a single oak
-sapling in the survey, in a wood notified for its oak. The successor cohort
-(7 to 50 cm, single stems) is led by ash and wych elm, the two species under
-active disease pressure.
+**No young oaks.** The survey found no oak saplings at all, in a wood
+designated for its oak. Ash and wych elm lead the next generation of canopy
+trees (single stems, 7 to 50 cm), and disease threatens both.
 
 ![Age structure by species](outputs/figures/fig12_age_structure.png)
 
-*Figure 12. Age classes split by species. Single stems (measured by dbh) are
-separated from coppice and multistem (measured by stool width): the two share
-recording columns but are different measurements, and pooling them roughly
-triples apparent canopy density.*
+*Figure 12. Age classes by species. Surveyors measured single stems by dbh and
+coppice or multistem by stool width. The field sheet records both in the same
+columns, so I kept them apart: pooling them roughly triples apparent canopy
+density.*
 
-**Standing deadwood stops entirely at 50 cm.** Total deadwood is not scarce
-(151 pieces in 0.40 ha), but zero standing pieces exceed 50 cm anywhere in the
-survey. The failure is size and posture, not quantity, which refines the
-regulator's judgement into a cheap management action: retain dead stems
-standing where safety allows.
+**No standing deadwood over 50 cm.** The survey found plenty of deadwood (151
+pieces in 0.40 ha), but no standing piece exceeds 50 cm. That suggests a cheap
+fix: leave dead trees standing where it's safe.
 
 ![Deadwood by type and size](outputs/figures/fig15_deadwood_types.png)
 
 *Figure 15. Deadwood by type and size class.*
 
-**The 1984 citation no longer describes this wood.** The survey found one
-established Wild Service Tree, and 17 established Small-leaved Limes of which
-11 are in the largest size class. Lime shows a bimodal age structure: eleven
-overmature stems, thirteen seedlings, and only nine stems across everything in
-between. Both species are cited as "locally abundant" in the site's legal
-designation.
+**The 1984 citation is out of date.** It lists both indicator trees as "locally
+abundant". The survey found one established Wild Service Tree, and 17
+established Small-leaved Limes, 11 of them in the largest size class. Lime has
+a gap in its age structure: 11 overmature stems, 13 seedlings, and only 9 stems
+in between.
 
-Other results: a fourfold density spread (450 to 1,800 established stems/ha,
-site mean 988); Shannon diversity 0.66 to 1.90 with the poorest cells
-hazel-dominated abandoned coppice; non-native trees at 0.5% of stems, though
-all eight sycamore are seedling to small and Natural England record sycamore
-at 30% of large trees in the same corner, so the survey undercounts it; and no
-transect at all in management unit 3, which is the quarry.
+Other results:
 
-All figures are in [`outputs/figures/`](outputs/figures/), with the full
-figure list in [`docs/figures.md`](docs/figures.md).
+- Established stem density varies fourfold, from 450 to 1,800 stems/ha (site
+  mean 988).
+- Shannon diversity runs from 0.66 to 1.90. Abandoned hazel coppice scores
+  lowest.
+- Non-native trees make up 0.5% of stems. All eight sycamores are seedlings or
+  small trees, yet Natural England recorded sycamore as 30% of large trees in
+  the same corner, so the survey undercounts it.
+- No transect falls in management unit 3, the quarry.
+
+All figures are in [`outputs/figures/`](outputs/figures/), listed in
+[`docs/figures.md`](docs/figures.md).
 
 ## The Pipeline
 
@@ -131,10 +128,9 @@ flowchart LR
   S08 --> QFIG["figures 1 to 11<br/>as QGIS layouts"]
 ```
 
-The design rule: **everything in `src/wbw/` reads and calculates but never
-writes a file; everything in `scripts/` writes files but parses nothing.** One
-workbook reader feeds the figures, the QGIS exports and the unit summary, so a
-parsing fix happens in one place.
+Code in `src/wbw/` reads and calculates but never writes files. Code in
+`scripts/` writes files but does no parsing. One workbook reader feeds
+everything, so I fix parsing bugs in one place.
 
 ## Repository Structure
 
@@ -159,7 +155,7 @@ parsing fix happens in one place.
 │   ├── figures.md              full figure list, both toolchains
 │   └── qgis-figures.md         the QGIS gallery
 ├── data/
-│   ├── raw/                    AWT survey workbook + field documents (NOT in repo)
+│   ├── raw/                    AWT survey workbook + field documents (not in repo)
 │   ├── external/               downloaded and derived layers (regenerated)
 │   └── processed/              intermediates (regenerated)
 ├── outputs/
@@ -167,86 +163,97 @@ parsing fix happens in one place.
 │   │   └── qgis/               QGIS figures 1 to 11
 │   └── tables/                 per-unit summary, headline stats
 ├── wbw_figures.qgz             the QGIS project, rebuilt by script 08
+├── WBW_survey_report.pdf       the report delivered to AWT
 └── *.md                        brief, data audit, site dossier, pre-analysis findings,
                                 GIS data sources, NE condition assessment
 ```
 
 ## How to Run
 
+You need Python 3.12+, AWT's survey workbook and an Environment Agency LIDAR
+tile. Neither data file is in this repo.
+
+**1. Set up**
+
 ```bash
 python -m venv .venv
-.venv/Scripts/activate            # Windows; on macOS/Linux: source .venv/bin/activate
+source .venv/Scripts/activate     # Windows Git Bash
+# .venv\Scripts\Activate.ps1      # Windows PowerShell
+# source .venv/bin/activate       # macOS / Linux
 pip install -e ".[dev]"
-
 python -m pytest                  # 26 tests on the tally parser
 ```
 
-**The script numbers are not the run order.** Boundaries must exist before the
-figures can be drawn, and the survey plan before the unit summary uses it:
+**2. Add the data**
+
+- Put `WBW_tree_age_distributions_tallied.xlsx` and `tree_sample_locs.pdf` in
+  `data/raw/`. Both belong to AWT and aren't public.
+- Download the EA LIDAR Composite DTM 1 m for 345000 to 346150 E, 174500 to
+  175600 N (British National Grid) from the EA WCS service, and save it as
+  `data/external/dtm_1m.tif`. Only script 04 needs it. Section 4 of
+  [`gis_data_sources.md`](gis_data_sources.md) has the endpoint.
+
+**3. Run the scripts in number order**
 
 ```bash
-python scripts/01_download_boundaries.py      # -> boundaries.gpkg
-python scripts/04_terrain_and_qgis_layers.py  # needs dtm_1m.tif -> survey_plan.gpkg
-python scripts/02_make_figures.py             # -> figures 2 to 15
+python scripts/01_download_boundaries.py      # Natural England layers (needs internet)
+python scripts/02_make_figures.py             # figures 2 to 15, unit summary, headline stats
+python scripts/03_build_report.py             # outputs/report.html
+python scripts/04_terrain_and_qgis_layers.py  # LIDAR slope -> survey_plan.gpkg
 python scripts/05_export_qgis_results.py      # -> survey_results.gpkg
 python scripts/06_export_unit_summary.py      # -> management_units.gpkg
 python scripts/07_export_non_natives.py       # -> non_natives.gpkg
-python scripts/03_build_report.py             # -> outputs/report.html
 ```
 
-Requires the survey workbook in `data/raw/` (not distributed, see below), and
-the EA 1 m DTM tile as `data/external/dtm_1m.tif` for script 04.
-Python 3.12+. Stack: pandas, geopandas, shapely, pyproj, matplotlib, openpyxl,
-pypdf.
+**4. QGIS figures (optional)**
+
+Run steps 1 to 3 first. In QGIS, open Plugins > Python Console, click Show
+Editor, open `scripts/08_qgis_figures.py` and run it. It writes PNGs to
+`outputs/figures/qgis/`. If it can't find the project folder, set the
+`WBW_ROOT` environment variable to the repo path.
 
 ## QGIS
 
-Figures 1 to 11 are also built as QGIS print layouts by
-[`scripts/08_qgis_figures.py`](scripts/08_qgis_figures.py), which runs inside
-the QGIS Python environment rather than the project venv. It is idempotent: a
-previous run is torn down first, so it can be rerun after an edit without
-duplicating layers or layouts.
+Script 08 builds figures 1 to 11 as QGIS print layouts. It needs QGIS's own
+Python, so it won't run in the project venv. Each run clears the previous one
+first, so you can rerun it after an edit without duplicate layers.
 
 **[See the QGIS gallery](docs/qgis-figures.md)**
 
-Figure 1 exists only in QGIS, because it needs a basemap. Figures 12 to 15 are
-statistical charts with no geometry and stay in matplotlib. Figures 4, 6 and 8
-use IDW in QGIS against Gaussian kernel smoothing in Python, so the two
-surfaces are related but not identical and must not be presented as the same
-figure.
+Figure 1 exists only in QGIS because it needs a basemap. Figures 12 to 15 are
+charts with no geometry, so they stay in matplotlib. Figures 4, 6 and 8 use IDW
+in QGIS and Gaussian kernel smoothing in Python. The surfaces differ, so treat
+them as separate figures.
 
 ## Data and Licensing
 
-- **Survey data** is (c) Avon Wildlife Trust, unpublished, and is not included
-  in this repository. `data/raw/` is permanently gitignored so it cannot enter
-  git history.
-- **Boundaries**: Natural England open data (SSSI boundaries, SSSI management
+- **Survey data:** (c) Avon Wildlife Trust, unpublished, not in this repo.
+  `.gitignore` excludes `data/raw/`, so nobody can commit it by accident.
+- **Boundaries:** Natural England open data (SSSI boundaries, SSSI management
   units, Ancient Woodland Inventory), Open Government Licence v3.0.
-- **Terrain**: Environment Agency LIDAR composite DTM, Open Government
-  Licence v3.0.
-- All spatial work is in OSGB36 / British National Grid (EPSG:27700). Nothing
-  is reprojected, because Natural England publish in the same CRS.
-- **Code** is MIT licensed.
+- **Terrain:** Environment Agency LIDAR Composite DTM, Open Government Licence
+  v3.0.
+- **CRS:** British National Grid (EPSG:27700) throughout. Natural England
+  publishes in the same CRS, so nothing gets reprojected.
+- **Code:** MIT.
 
-## Analytical Honesty Notes
+## Notes on the Analysis
 
-Five decisions worth knowing before reusing anything here:
+Read these before reusing anything here:
 
-1. **Stem types are split for structural analysis.** Coppice and multistem are
-   measured by stool width, single stems by dbh; they share recording columns
-   but are not comparable, so no structural figure pools them.
-2. **Seedling counts are censored.** Field protocol capped counts at 100 per
-   cell (">100"). All seedling figures are minima and are never folded into
-   density maps.
-3. **Maps are gridded, not interpolated.** 20 points covering 1.06% of the
-   site support per-cell comparison, not a smooth surface. The interpolated
-   figures are labelled indicative and show their support points.
-4. **Size classes are read by column position, not header label.** The labels
-   drift between sheets; the positions do not.
-5. **Two grid references were repaired in code, never in the data.** Q5 and
-   Q11 lost a leading digit and plot 300 km offshore uncorrected. The repair
-   lives in `config.py` with its justification and is reported on every run.
+1. **Stem types stay separate.** Single stems and coppice share columns on the
+   field sheet but use different measurements, so no structural figure pools
+   them.
+2. **Seedling counts are minimums.** The field protocol capped counts at 100
+   per cell (">100"). Seedlings stay out of the density maps.
+3. **Maps use grid cells.** 20 points covering 1.06% of the site can support
+   cell-by-cell comparison but not a smooth surface. The interpolated figures
+   say "indicative" and show the points behind them.
+4. **The parser reads size classes by column position.** Header labels change
+   between sheets. Positions don't.
+5. **I fixed two grid references in code, never in the data.** Q5 and Q11 lost
+   a leading digit and plot 300 km offshore without the fix. `config.py` holds
+   the repair and the reasoning, and every run reports it.
 
-The one notation ambiguity in the brief (whether `2, C, 2M` means 2 or 3
-single stems) was **resolved by the client on 14 August 2026 as 2**, which is
-the reading the parser already used, so no counts changed.
+The field notation `2, C, 2M` could mean 2 or 3 single stems. AWT confirmed 2
+on 14 August 2026. The parser already read it that way, so no counts changed.

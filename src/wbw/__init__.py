@@ -1,6 +1,6 @@
 """Tree survey analysis for Weston Big Wood SSSI.
 
-Client: Avon Wildlife Trust (Jenny Greenwood, GIS and Monitoring Manager).
+Volunteer project for Avon Wildlife Trust.
 """
 
 __version__ = "0.1.0"

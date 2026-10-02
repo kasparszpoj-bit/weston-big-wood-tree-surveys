@@ -1,9 +1,8 @@
 """Tests for the field tally notation parser.
 
-The first test is the one that matters to the client: it checks the parser
-reproduces the totals Jenny Greenwood stated in her own worked examples. Every
-count in the analysis depends on this parser being right, so it is tested
-against the client's arithmetic rather than against our own assumptions.
+The first test matters most: it checks the parser reproduces the totals in
+AWT's own worked examples. Every count in the analysis depends on this parser,
+so it is tested against AWT's arithmetic, not our own assumptions.
 """
 
 import math
