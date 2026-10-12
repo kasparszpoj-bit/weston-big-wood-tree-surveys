@@ -190,8 +190,8 @@ python -m pytest                  # 26 tests on the tally parser
   `data/raw/`. Both belong to AWT and aren't public.
 - Download the EA LIDAR Composite DTM 1 m for 345000 to 346150 E, 174500 to
   175600 N (British National Grid) from the EA WCS service, and save it as
-  `data/external/dtm_1m.tif`. Only script 04 needs it. Section 4 of
-  [`gis_data_sources.md`](gis_data_sources.md) has the endpoint.
+  `data/external/dtm_1m.tif`. Only script 04 needs it. The WCS endpoint is
+  `https://environment.data.gov.uk/spatialdata/lidar-composite-digital-terrain-model-dtm-1m/wcs`.
 
 **3. Run the scripts in number order**
 

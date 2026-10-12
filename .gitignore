@@ -33,6 +33,15 @@ outputs/report.html
 # Contains AWT contact details and correspondence. Never commit.
 access_and_admin.md
 
+# Working notes: kept locally, not published.
+brief.md
+NOTES.md
+site_dossier.md
+pre_analysis_findings.md
+data_audit.md
+gis_data_sources.md
+ne_condition_assessment_2023.md
+
 # Editors and OS
 .vscode/
 .idea/
